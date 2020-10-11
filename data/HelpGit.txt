@@ -1,0 +1,120 @@
+ПОНЯТИЯ
+
+командный, удаленный  - это репозиторий или ветка которая находится на другом сервере
+branch_name	- имя ветки  
+
+Создание репозитория
+git init
+что-то делаем (работаем)
+git add .						индексируем
+git commit -am "Комментарий"	фиксируем изменения и комментируем
+связываем с удаленным репозиторием
+git remote add origin git@github.com:HOSTKEYBV/www.rsync24.ru.git
+проталкиваем
+git push -u origin master
+git push -u origin --all
+git push -u origin --tags
+
+Извлечение существующего репозитория (клонирование)
+git clone URL [-b branch_name] [folder_name]
+
+ЛОКАЛЬНЫЕ ВЕТКИ
+
+Стандартная работа в локальной ветке
+git add .						индексируем
+git commit -am "Комментарий"	фиксируем изменения и комментируем
+
+Создание ветки (отпочковывание от текущей)
+git branch branch_name
+Создание ветки и переключение на нее (отпочковывание от текущей)
+git checkout -b branch_name
+Переключение на нужную ветку
+git checkout "Имя ветки"
+Удаление ветки (не удалит если ветка в измененном и не зафиксированном состоянии)
+git branch -d branch_name
+Принудительно удаление ветки
+git branch -D branch_name
+
+КОМАНДНЫЕ ВЕТКИ
+
+Стандартная работа в командной ветке
+git add .						индексируем
+git commit -am "Комментарий"	фиксируем изменения и комментируем
+git pull						забираем изменения из удаленного репозитория
+git push						фиксируем изменения в удаленном репозитории
+
+Проталкиваем локальную ветку на сервер и связывание с ней локальной
+git push origin branch_name:branch_name
+git branch --set-upstream-to=origin/branch_name branch_name
+Развертывание удаленной ветки
+git branch --track branch_name origin/branch_name
+Развертывание удаленной ветки и переключение на нее
+git checkout --track -b branch_name origin/branch_name
+Соединение веток (MERGE) Обновление ветки данными из другой ветки
+git merge "Имя ветки из которой забираем изменения чтобы соединить"
+Удаление командной ветки на сервере
+git push origin :branch_name
+
+СРАВНЕНИЕ DIFF
+
+git diff pathFile	посмотреть отличия измененного файла с последним коммитом
+git diff master -- pathFile		посмотреть отличия файла (версии) от версии находящей в указанной ветке
+git diff --name-status master	посмотреть список изменных файлов и их статусы (добавлен, изменен, удален, перемещен)
+
+ТЕГИ
+
+Cоздание тега
+git tag tag_name
+
+Перемещение тега на текущий коммит
+git tag -f tag_name
+
+Пушим в удаленный репозиторий
+git push --tags
+git push -f origin tag_name
+
+удалить тег из git-репозитория
+git tag -d tag_name
+
+удалить тег из удаленного git-репозитория
+git push origin :refs/tags/tag_name
+
+FORK
+1) делаем форк
+2) клонируем
+3) отслеживание изменений в оригинальном репозитрии
+git remote add upstream git://github.com/octocat/Spoon-Knife.git
+git fetch upstream
+4) работаем над форком в специтальной ветке
+git checkout -b feature
+5) Работаем 
+6) https://habr.com/ru/post/125999/
+7) После принятия pull request обновляем свою репу
+git checkout master
+git pull upstream master
+git push origin master
+
+Если за время работы исходный репозиторий ушел вперед
+git checkout master
+git pull upstream master
+git checkout feature
+git merge master
+
+ДОПОЛНИТЕЛЬНО
+
+git branch -l			показать все локальные ветки		
+git branch -r			показать все удаленные ветки (git fetch --prune удаление ссылок на не существующие удаленные ветки)
+git log					посмотреть историю коммитов
+git status				посмотреть подробную информацию о состоянии ветки
+
+Удаление коммитов безвозвратное
+git reset --hard HEAD~3
+сбросит текущее несохраненное состояние и удалит указанное количество коммитов начиная с последнего
+проталкиваем на сервер
+git push -f
+
+Удаление коммитов с сохранением
+(уменьшение числа рабочих коммитов)
+git reset --soft HEAD^3
+
+SELECT CONCAT('*',UPPER(SHA1(UNHEX(SHA1(@plaintextpassword)))));
